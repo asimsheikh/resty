@@ -1,4 +1,5 @@
 import ast
+import sys
 
 import requests
 from pydantic import BaseModel
@@ -24,15 +25,19 @@ def parse_commands(lines: list[str]) -> Command:
     command = Command(method=method, url=url, data=twos)
     return command
 
-def get_commands() -> list[Command]:
-    with open('api.http') as f:
+def get_commands(filename: str) -> list[Command]:
+    with open(filename) as f:
         xs = f.read().split('\n\n')
         ys = [ x.splitlines() for x in xs]
         commands = [ parse_commands(y) for y in ys ]
     return commands
 
 if __name__ == "__main__":
-    commands = get_commands()
+
+    filename = sys.argv[1] if len(sys.argv) > 1 else 'api.http'
+    commands = get_commands(filename=filename)
+    errors = []
+
     for command in commands:
         if command.method == 'POST' and command.data[0].first == 'json':
             url = command.url
@@ -43,6 +48,11 @@ if __name__ == "__main__":
                     print('.', end='')
                 else:
                     print('E', end='')
+                    errors.append(f'{command.method} - {command.url} failed')
             except:
                 print('E', end='')
+                errors.append(f'{command.method} request to {command.url} failed')
     print()
+    print()
+    for error in errors:
+        print(error)
