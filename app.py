@@ -9,7 +9,14 @@ def hello():
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
-    if data['username'] == 'asimsheikh' and data['password'] == 'asim':
+    if not data:
+        return {'ok': False}
+    elif data['username'] == 'asimsheikh' and data['password'] == 'asim':
         return {'ok': True}
     else:
-        return {'ok': False}
+        raise Exception('No idea why we are here')
+
+@app.route('/echo', methods=['POST'])
+def echo():
+    data = request.json
+    return data

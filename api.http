@@ -1,0 +1,15 @@
+POST http://localhost:5000/login 
+json {'username': 'asimsheikh', 'password': 'asim'} 
+equals {'ok': True } 
+
+POST http://localhost:5000/echo 
+json {'username': 'asimsheikh', 'password': 'asim'} 
+equals {'username': 'asimsheikh', 'password': 'asim'} 
+contains 'asimsheikh'
+
+POST http://localhost:5000/echo 
+json {'hello': 'world'}
+equals {'hello': 'world'}
+
+POST http://localhost:5000/nothing
+json {'name': 'Asim Sheikh'}
