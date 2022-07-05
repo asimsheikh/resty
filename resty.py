@@ -55,7 +55,3 @@ if __name__ == "__main__":
                 msg = f'{command.method} - {command.url} failed'
                 print(f'E {msg}')
                 errors.append(msg)
-
-    # print('\n'*2)
-    # for error in errors:
-    #     print(error)
