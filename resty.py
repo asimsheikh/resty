@@ -44,15 +44,18 @@ if __name__ == "__main__":
             json_data = ast.literal_eval(command.data[0].second)
             try:
                 resp = requests.post(url, json=json_data)
-                if resp.status_code == 200:
-                    print('.', end='')
+                resp_data = resp.json()
+                if resp.status_code == 200 and resp_data == ast.literal_eval(command.data[1].second):
+                    print('.')
                 else:
-                    print('E', end='')
-                    errors.append(f'{command.method} - {command.url} failed')
+                    msg = f'{command.method} - {command.url} failed'
+                    print(f'E {msg}')
+                    errors.append(msg)
             except:
-                print('E', end='')
-                errors.append(f'{command.method} request to {command.url} failed')
-    print()
-    print()
-    for error in errors:
-        print(error)
+                msg = f'{command.method} - {command.url} failed'
+                print(f'E {msg}')
+                errors.append(msg)
+
+    # print('\n'*2)
+    # for error in errors:
+    #     print(error)
