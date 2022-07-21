@@ -43,7 +43,6 @@ def extract_commnds(httpfile: str) -> list[str]:
 def runner(commands: list[str]) -> None:
     for command in commands:
         req = get_post_command(command)
-        print(req)
         print(requests.post(req.url, json=req.json_data).json())
 
 if __name__ == "__main__":
