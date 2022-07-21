@@ -12,8 +12,6 @@ class PostCommand(BaseModel):
     json_data: dict[Any, Any] | None
     equals: dict[Any, Any] | None
 
-print(PostCommand)
-
 dict_pattern = r'\{.*?\}'
 json_pattern = r'json ' + dict_pattern
 equals_pattern = r'equals ' + dict_pattern
