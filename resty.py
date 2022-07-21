@@ -13,15 +13,15 @@ class Command(BaseModel):
     url: str
     data: list[Two]
         
-
 def parse_commands(lines: list[str]) -> Command:
+    method, url = lines.pop(0).split()
+
     twos = []
-    for data in lines[1:]:
+    for data in lines:
         if data:
             first, *second = data.split()
             twos.append(Two(first=first, second=''.join(second)))
 
-    method, url = lines[0].split()
     command = Command(method=method, url=url, data=twos)
     return command
 
@@ -46,12 +46,20 @@ if __name__ == "__main__":
                 resp = requests.post(url, json=json_data)
                 resp_data = resp.json()
                 if resp.status_code == 200 and resp_data == ast.literal_eval(command.data[1].second):
-                    print('.')
+                    print('.', end='')
                 else:
                     msg = f'{command.method} - {command.url} failed'
-                    print(f'E {msg}')
+                    # print(f'E {msg}')
+                    print('E', end='')
                     errors.append(msg)
             except:
                 msg = f'{command.method} - {command.url} failed'
-                print(f'E {msg}')
+                # print(f'E {msg}')
+                print('E', end='')
                 errors.append(msg)
+
+            sys.stdout.flush()
+
+    print('\n')
+    for error in errors:
+        print(error)

@@ -20,4 +20,4 @@ json {'name': 'Asim Sheikh'}
 
 POST http://localhost:5000/name
 json {'hello': 'world'}
-equals {'ok': False}
+equals {'ok': True}
